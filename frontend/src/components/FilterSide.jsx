@@ -10,6 +10,8 @@ function FilterSide({ setFilters, setManualQuery }) {
 		spanId: "",
 		commit: "",
 		"metadata.parentResourceId": "",
+		startTime: "",
+		endTime: "",
 	});
 
 	const handleInputChange = (filterKey, value) => {
@@ -30,7 +32,7 @@ function FilterSide({ setFilters, setManualQuery }) {
 	};
 
 	return (
-		<div className="h-[620px] py-4 px-6 flex flex-col gap-0.5 rounded-md bg-[#1c212b]">
+		<div className="h-[800px] py-4 px-6 flex flex-col gap-0.5 rounded-md bg-[#1c212b] w-[500px]">
 			<div className="font-bold text-xl mb-2 flex justify-between">
 				<div>Filters</div>
 				<button className="h-[2rem] btn" onClick={applyFilters}>

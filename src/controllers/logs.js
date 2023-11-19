@@ -1,4 +1,5 @@
-const Log = require('../models/logModel')
+const Log = require('../models/logModel');
+const { searchLogs } = require('../utility');
 
 const ingestLogs = async (req, res) => {
   try {
@@ -45,24 +46,34 @@ const ingestLogs = async (req, res) => {
 
 const queryLogs = async (req, res) => {
 	try {
+		if (req.query.fullTextSearch) {
+			const searchresults = await searchLogs(req.query.fullTextSearch);
+			return res.status(200).json(searchresults)
+		}
 		const queryFilters = {};
-		const filters = [
-			"level","message","resourceId","timestamp","traceId","spanId","commit","metadata.parentResourceId",
-		];
+		const filters = [ "level","message","resourceId","timestamp","traceId","spanId","commit","metadata.parentResourceId",];
 
 		filters.forEach((filter) => {
 			if (req.query[filter]) {
-				queryFilters[filter] = filter === "timestamp" ? new Date(req.query[filter]) : req.query[filter];
+				queryFilters[filter] =
+					filter === "timestamp"
+						? { $eq: new Date(req.query[filter]) }
+						: req.query[filter];
 			}
 		});
 
+		if (req.query.startTime && req.query.endTime) {
+      queryFilters["timestamp"] = {
+				$gte: new Date(req.query.startTime),
+				$lte: new Date(req.query.endTime),
+			};
+    }
 		const result = await Log.find(queryFilters).batchSize(100);
 		res.status(200).json(result);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal Server Error" });
 	}
-	
-}
+};
 
 module.exports = {ingestLogs, queryLogs}

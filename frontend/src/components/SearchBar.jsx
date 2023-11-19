@@ -1,33 +1,33 @@
 import React, { useState } from "react";
 
-function SearchBar({ onApplyManualQuery }) {
-	const [manualQuery, setManualQuery] = useState("");
+function SearchBar({ onApplyFullTextSearch }) {
+	const [fullTextSearch, setFullTextSearch] = useState("");
 
-	const handleManualQueryChange = (event) => {
-		setManualQuery(event.target.value);
+	const handleFullTextSearchChange = (event) => {
+		setFullTextSearch(event.target.value);
 	};
 
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter") {
-			onApplyManualQuery(manualQuery);
+			onApplyFullTextSearch(fullTextSearch);
 		}
 	};
 
-	const applyManualQuery = () => {
-		onApplyManualQuery(manualQuery);
+	const applyFullTextSearch = () => {
+		onApplyFullTextSearch(fullTextSearch);
 	};
 
 	return (
 		<div className="flex gap-2 items-center">
 			<input
 				type="text"
-				placeholder="Enter query string..."
+				placeholder="Full-text Search..."
 				className="input input-bordered w-full max-w-xs h-[3rem] text-sm rounded-sm"
-				value={manualQuery}
-				onChange={handleManualQueryChange}
+				value={fullTextSearch}
+				onChange={handleFullTextSearchChange}
 				onKeyDown={handleKeyDown}
 			/>
-			<button className="h-[2rem] btn" onClick={applyManualQuery}>
+			<button className="h-[2rem] btn" onClick={applyFullTextSearch}>
 				Search
 			</button>
 		</div>

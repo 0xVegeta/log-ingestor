@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import JsonFormatter from "react-json-formatter";
 import qs from "qs";
+import {IP_ADDRESS, PORT} from '../constant.mjs'
 
 function Card({ filters }) {
 	const [responseData, setResponseData] = useState([]);
@@ -13,14 +14,15 @@ function Card({ filters }) {
 	};
 
 	useEffect(() => {
-		let manualQuery = filters.manualQuery;
-		const queryString = manualQuery
-			? manualQuery
+		let fullTextSearch = `fullTextSearch=${filters.fullTextSearch}`;
+		const queryString = filters.fullTextSearch
+			? fullTextSearch
 			: qs.stringify(filters, { encode: false });
-		filters.manualQuery = ''
+		console.log(`http://${IP_ADDRESS}:${PORT}/query/?${queryString}`);
+		filters.fullTextSearch = "";
 			
 		axios
-			.get(`http://localhost:3000/query/?${queryString}`)
+			.get(`http://${IP_ADDRESS}:${PORT}/query/?${queryString}`)
 			.then((response) => {
 				setResponseData(response.data);
 			})

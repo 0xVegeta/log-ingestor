@@ -14,11 +14,13 @@ function App() {
 		spanId: "",
 		commit: "",
 		"metadata.parentResourceId": "",
-		manualQuery:"",
+		startTime: "",
+		endTime: "",
+		fullTextSearch: "",
 	});
 
-	const handleApplyManualQuery = (manualQuery) => {
-		setFilters({ ...filters, manualQuery });
+	const handleApplyFullTextSearch = (fullTextSearch) => {
+		setFilters({ ...filters, fullTextSearch });
 	};
 
 	return (
@@ -26,7 +28,7 @@ function App() {
 			<Navbar />
 
 			<main className="w-[1024px] flex flex-col grow mx-auto my-4 gap-4">
-				<SearchBar onApplyManualQuery={handleApplyManualQuery} />
+				<SearchBar onApplyFullTextSearch={handleApplyFullTextSearch} />
 				<div className="flex flex-row gap-4">
 					<FilterSide filters={filters} setFilters={setFilters} />
 					<Card filters={filters} />
